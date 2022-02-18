@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>network on Darren Nathanael</title>
+    <link>https://darrennathanael.com/tags/network/</link>
+    <description>Recent content in network on Darren Nathanael</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 06 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://darrennathanael.com/tags/network/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How I handle jays.host ddos attack</title>
+      <link>https://darrennathanael.com/post/jayshost/</link>
+      <pubDate>Sun, 06 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://darrennathanael.com/post/jayshost/</guid>
+      <description>1. How it start  this is not the full start, I joined &amp;amp; help at jan 19, 2022. (Fun fact thats the same date as birthday lol)
+ So this is how it went. on January jays webserver went down for almost a week. the reason? e-z.host.
+ SKRRRTT#9999 the owner of ez.host 
+yada yada yada, Jay&amp;rsquo;s vps dying moment.
+ vps die moment 
+2. Investigate Problem So first thing I do was check Cloudflare logs, see what traffic is going trough and see if Cloudflare was blocking it.</description>
+    </item>
+    
+  </channel>
+</rss>

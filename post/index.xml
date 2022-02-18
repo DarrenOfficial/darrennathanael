@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Darren Nathanael</title>
+    <link>https://darrennathanael.com/post/</link>
+    <description>Recent content in Posts on Darren Nathanael</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 18 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://darrennathanael.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>setting up tunnelbroker (networks)</title>
+      <link>https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/</link>
+      <pubDate>Fri, 18 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/</guid>
+      <description>Why lavalink is usually used for discord bot to play music to discord.
+If your bot is on alot of servers and alot of people, you need tunnelbroker to prevent youtube rate limiting your ip.
+ First and formost, we need to install lavalink. if you dont know how to you can check out the lavalink setup guide
+Getting TunnelBroker  Make a tunnelbroker Account Create a new regular tunnel Enter your IPv4 address and select a nearby region.</description>
+    </item>
+    
+    <item>
+      <title>The challenge of running lavalink</title>
+      <link>https://darrennathanael.com/post/challenge-of-running-public-lavalink/</link>
+      <pubDate>Sat, 12 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://darrennathanael.com/post/challenge-of-running-public-lavalink/</guid>
+      <description>Hello 👋 Hi, I&amp;rsquo;m Darren! I am a sysadmin. Meaning I have a lot of servers that I rent for testing and development. I also have a discord music bot Model Buses that uses lavalink.
+Having one lavalink server isn&amp;rsquo;t enough&amp;hellip;. jk it&amp;rsquo;s prob enough, but I like to have a few more for redundancy.
+As of writing this, my bot model buses are on 97 guilds, which isn&amp;rsquo;t that much.</description>
+    </item>
+    
+    <item>
+      <title>How I handle jays.host ddos attack</title>
+      <link>https://darrennathanael.com/post/jayshost/</link>
+      <pubDate>Sun, 06 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://darrennathanael.com/post/jayshost/</guid>
+      <description>1. How it start  this is not the full start, I joined &amp;amp; help at jan 19, 2022. (Fun fact thats the same date as birthday lol)
+ So this is how it went. on January jays webserver went down for almost a week. the reason? e-z.host.
+ SKRRRTT#9999 the owner of ez.host 
+yada yada yada, Jay&amp;rsquo;s vps dying moment.
+ vps die moment 
+2. Investigate Problem So first thing I do was check Cloudflare logs, see what traffic is going trough and see if Cloudflare was blocking it.</description>
+    </item>
+    
+    <item>
+      <title>setting up tunnelbroker (netplan)</title>
+      <link>https://darrennathanael.com/post/tunnelbroker-lavalink-netplan/</link>
+      <pubDate>Sat, 05 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://darrennathanael.com/post/tunnelbroker-lavalink-netplan/</guid>
+      <description>Why lavalink is usually used for discord bot to play music to discord.
+If your bot is on alot of servers and alot of people, you need tunnelbroker to prevent youtube from rate limiting your ip.
+ First and formost, we need to install lavalink. if you dont know how to you can check out the lavalink setup guide
+Getting TunnelBroker  Make a tunnelbroker Account Create a new regular tunnel Enter your IPv4 address and select a nearby region.</description>
+    </item>
+    
+    <item>
+      <title>How to make your own CDN with 10 GB storage for free</title>
+      <link>https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/</link>
+      <pubDate>Tue, 14 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/</guid>
+      <description>Disclaimer: Don’t use it to host video, theres nothing preventing you from doing so other than Cloudflare tos (2.8) but it’s better if you just use it for image storage.
+ Hello there 👋 Today we will use Cloudflare &amp;amp; GitLab to make the best “free” &amp;amp; fast CDN!
+How do we do this you may ask, well simple. GitLab provides us with 10 GB repository limit, we can use this to host our original data via GitLab Pages, then we serve it via Cloudflare, and we set a page rule for our CDN, so it always hit the cached version!</description>
+    </item>
+    
+    <item>
+      <title>How to make lavalink server</title>
+      <link>https://darrennathanael.com/post/how-to-lavalink/</link>
+      <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://darrennathanael.com/post/how-to-lavalink/</guid>
+      <description>What are we doing today In this tutorial we will be setting up lavalink server! 🎉
+ Let&amp;rsquo;s get started.
+Now, first thing first
+Setting up the enviroment To make a lavalink server, you will need a java 13 or greater, I recommend using Azul Zulu java 16 or 17.
+You can download &amp;amp; setup java by going to here:
+ Linux (Make sure to get zulu16-jdk or zulu17-jdk  Ubuntu / Debian; APT Base Rhel / CentOS / Oracle; RPM Base Arch; I use arch btw.</description>
+    </item>
+    
+  </channel>
+</rss>

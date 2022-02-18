@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Darren Nathanael</title>
+        <link>https://darrennathanael.com/</link>
+        <description>Recent content on Darren Nathanael</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Fri, 18 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://darrennathanael.com/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>setting up tunnelbroker (networks)</title>
+        <link>https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/</link>
+        <pubDate>Fri, 18 Feb 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/</guid>
+        <description>&lt;img src="https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/goodcontent.webp" alt="Featured image of post setting up tunnelbroker (networks)" /&gt;&lt;h1 id=&#34;why&#34;&gt;Why&lt;/h1&gt;
+&lt;p&gt;lavalink is usually used for discord bot to play music to discord.&lt;/p&gt;
+&lt;p&gt;If your bot is on alot of servers and alot of people, you need tunnelbroker to prevent youtube rate limiting your ip.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;First and formost, we need to install lavalink. if you dont know how to you can check out the &lt;a class=&#34;link&#34; href=&#34;https://darrennathanael.com/post/how-to-lavalink/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;lavalink setup guide&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;getting-tunnelbroker&#34;&gt;Getting TunnelBroker&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Make a tunnelbroker &lt;a class=&#34;link&#34; href=&#34;https://tunnelbroker.net/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Account&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Create a new &lt;a class=&#34;link&#34; href=&#34;https://tunnelbroker.net/new_tunnel.php&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;regular tunnel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Enter your IPv4 address and select a nearby region.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;You can use &lt;a class=&#34;link&#34; href=&#34;https://github.com/DarrenOfficial/scripts-util/blob/main/general/he_ping.sh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/DarrenOfficial/scripts-util/blob/main/general/he_ping.sh&lt;/a&gt; to find nearest / lowest ping tunnelbroker server.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Request a new /48 by clicking the &amp;ldquo;Assign /48&amp;rdquo; button. We can use /64, but is much more likely to be blocked.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 101; 
+			flex-basis: 243px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/tunnelbroker.png&#34; data-size=&#34;581x572&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/tunnelbroker.png&#34;
+			width=&#34;581&#34;
+			height=&#34;572&#34;
+			srcset=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/tunnelbroker_hu9a6e055e738062a47758f79c443259b3_75036_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/tunnelbroker_hu9a6e055e738062a47758f79c443259b3_75036_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Tunnel broker interface&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Tunnel broker interface&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;configuring-tunnelbroker&#34;&gt;Configuring TunnelBroker&lt;/h2&gt;
+&lt;p&gt;The first thing to do is enable IPv6 Binding in Linux. This enables Lavalink (and other programs) to bind to local addresses that would otherwise be considered illegal:&lt;/p&gt;
+&lt;p&gt;Some distro doesn&amp;rsquo;t keep the value of net.ipv6.ip_nonlocal_bind after reboot, so you may need to run that command after reboot to prevent issues.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Enable now&lt;/span&gt;
+sysctl -w net.ipv6.ip_nonlocal_bind&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# Persist for next boot&lt;/span&gt;
+echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;net.ipv6.ip_nonlocal_bind = 1&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; /etc/sysctl.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Next you&amp;rsquo;ll need to configure network interfaces. edit a file on &lt;code&gt;/etc/network/interfaces&lt;/code&gt; and add the following:&lt;/p&gt;
+&lt;p&gt;if /etc/network/interfaces is not found, than maybe you&amp;rsquo;re using &lt;a class=&#34;link&#34; href=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-netplan/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;netplan&lt;/a&gt;. &lt;a class=&#34;link&#34; href=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-netplan&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;darrennathanael.com/post/tunnelbroker-lavalink-netplan&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;auto he-ipv6&lt;/span&gt;
+&lt;span style=&#34;color:#ae81ff&#34;&gt;iface he-ipv6 inet6 v4tunnel&lt;/span&gt;
+        &lt;span style=&#34;color:#ae81ff&#34;&gt;address ::2&lt;/span&gt;
+        &lt;span style=&#34;color:#ae81ff&#34;&gt;netmask 48&lt;/span&gt;
+        &lt;span style=&#34;color:#ae81ff&#34;&gt;endpoint &lt;/span&gt;
+        &lt;span style=&#34;color:#ae81ff&#34;&gt;local &lt;/span&gt;
+        &lt;span style=&#34;color:#ae81ff&#34;&gt;ttl 255&lt;/span&gt;
+        &lt;span style=&#34;color:#ae81ff&#34;&gt;gateway ::1&lt;/span&gt;
+&lt;span style=&#34;color:#ae81ff&#34;&gt;post-up /sbin/ip -6 route replace local ::/48 dev lo&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You will now need to add your IPv6 subnet details, you&amp;rsquo;ll need to go to tunnelbroker and copy the Server IPv4 address, Client IPv4 address, and Routed IPv6 address.&lt;/p&gt;
+&lt;p&gt;Then you can add the following to your &lt;code&gt;/etc/network/interfaces&lt;/code&gt; file, these should be arrange as shown in the template above.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Your &lt;strong&gt;remote&lt;/strong&gt; will be your &amp;lsquo;Server IPv4 address&amp;rsquo;&lt;/li&gt;
+&lt;li&gt;Your &lt;strong&gt;local&lt;/strong&gt; will be your &amp;lsquo;Client IPv4 address&amp;rsquo;&lt;/li&gt;
+&lt;li&gt;Your &lt;strong&gt;gateway6&lt;/strong&gt; will be your &amp;lsquo;Routed IPv6 address&amp;rsquo;&lt;/li&gt;
+&lt;li&gt;Your &lt;strong&gt;addresses&lt;/strong&gt; will be your &amp;lsquo;Routed IPv6 address&amp;rsquo;
+&lt;strong&gt;Remember, you do not need to include any speech marks or apostrophes, we have simply listed them to clearly display what should only be listed.&lt;/strong&gt;
+Please look at the &lt;strong&gt;sample&lt;/strong&gt; configuration below, this &lt;strong&gt;should look similar but not the same as&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 154; 
+			flex-basis: 371px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/networkinterfaces.png&#34; data-size=&#34;909x587&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/networkinterfaces.png&#34;
+			width=&#34;909&#34;
+			height=&#34;587&#34;
+			srcset=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/networkinterfaces_hu0ffe8202c716f6d9cd4173641069e0b7_231716_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/networkinterfaces_hu0ffe8202c716f6d9cd4173641069e0b7_231716_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;after doing all of that you can run &lt;code&gt;ifup he-ipv6&lt;/code&gt; to apply the changes.&lt;/p&gt;
+&lt;p&gt;If the command fail, reboot the system.&lt;/p&gt;
+&lt;h2 id=&#34;test-your-configuration&#34;&gt;Test your configuration&lt;/h2&gt;
+&lt;p&gt;Before setting up the lavalink, we need to test it to make sure it actually works.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Test that IPv6 works in the first place&lt;/span&gt;
+ping6 google.com
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Test your tunnel with&lt;/span&gt;
+ping6 -I he-ipv6 google.com
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# If you have the IPv6 block 1234:1234:1234::/48&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# You should be able to use any of the IPs within that block&lt;/span&gt;
+ping6 -I 1234:1234:1234:: google.com
+ping6 -I 1234:1234:1234::1 google.com
+ping6 -I 1234:1234:1234:dead::beef google.com
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Make sure your /48 block appears when running this command&lt;/span&gt;
+ip -6 route
+&lt;span style=&#34;color:#75715e&#34;&gt;## it should look something like this&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#::1 dev lo proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#2001:470:cc7b::/48 dev he-ipv6 proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#fdba:17c8:6c94::/64 dev pterodactyl0 proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#fe80::/64 dev eth0 proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#fe80::/64 dev pterodactyl0 proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#fe80::/64 dev vethff50ad0 proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#fe80::/64 dev veth5832748 proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#default via 2001:470:cc7b::1 dev he-ipv6 proto static metric 1024 pref medium&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 398; 
+			flex-basis: 955px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/sucessfullpin.png&#34; data-size=&#34;908x228&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/sucessfullpin.png&#34;
+			width=&#34;908&#34;
+			height=&#34;228&#34;
+			srcset=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/sucessfullpin_hu9f926836de2b3142b81446fdd1606318_137473_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/sucessfullpin_hu9f926836de2b3142b81446fdd1606318_137473_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;If theres an error such as &amp;ldquo;ping: bind icmp socket: Cannot assign requested address&amp;rdquo; then you need to make sure your configuration file is correct and run&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;sysctl -w net.ipv6.ip_nonlocal_bind&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 1025; 
+			flex-basis: 2460px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/cannotbindassignipaddress.png&#34; data-size=&#34;533x52&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/cannotbindassignipaddress.png&#34;
+			width=&#34;533&#34;
+			height=&#34;52&#34;
+			srcset=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/cannotbindassignipaddress_hubc8e2a56344ec52a6e5d922c398c5403_38755_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/cannotbindassignipaddress_hubc8e2a56344ec52a6e5d922c398c5403_38755_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;how-to-configure-lavalink-for-loadbalancing&#34;&gt;How to configure lavalink for loadbalancing&lt;/h2&gt;
+&lt;p&gt;Add the ratelimit block to your config:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;lavalink&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;server&lt;/span&gt;:
+    &lt;span style=&#34;color:#75715e&#34;&gt;# ...&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;ratelimit&lt;/span&gt;:
+        &lt;span style=&#34;color:#f92672&#34;&gt;ipBlocks&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1234:1234:1234::/48&amp;#34;&lt;/span&gt;] &lt;span style=&#34;color:#75715e&#34;&gt;# list of ip blocks&lt;/span&gt;
+        &lt;span style=&#34;color:#75715e&#34;&gt;#excludedIps: [&amp;#34;...&amp;#34;, &amp;#34;...&amp;#34;] # ips which should be explicit excluded from usage by lavalink&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;strategy&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;RotateOnBan&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# RotateOnBan | LoadBalance | NanoSwitch | RotatingNanoSwitch&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;searchTriggersFail&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# Whether a search 429 should trigger marking the ip as failing&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;retryLimit&lt;/span&gt;: -&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# -1 = use default lavaplayer value | 0 = infinity | &amp;gt;0 = retry will happen this numbers times&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 318; 
+			flex-basis: 764px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/lavalink.png&#34; data-size=&#34;1278x401&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/lavalink.png&#34;
+			width=&#34;1278&#34;
+			height=&#34;401&#34;
+			srcset=&#34;https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/lavalink_hu72297a897df0435bddb420fa6ceb1f2b_237819_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/tunnelbroker-lavalink-ifup-ifdown/lavalink_hu72297a897df0435bddb420fa6ceb1f2b_237819_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;You can read more about the different strategies in &lt;a class=&#34;link&#34; href=&#34;https://github.com/freyacodes/Lavalink/blob/master/ROUTEPLANNERS.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;ROUTEPLANNERS.md&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;“Help, I&amp;rsquo;ve tried the steps above but It doesn&amp;rsquo;t work.”
+If you&amp;rsquo;ve followed this entire guide and It doesn&amp;rsquo;t work, then please contact me on my &lt;a class=&#34;link&#34; href=&#34;https://discord.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;discord server&lt;/a&gt; &lt;a class=&#34;link&#34; href=&#34;https://discord.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;discord.darrennathanael.com&lt;/a&gt; and I&amp;rsquo;ll help you out. and also provide the following information:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Which distro you are on&lt;/li&gt;
+&lt;li&gt;The network config you wrote based on one of the Tunnelbroker examples&lt;/li&gt;
+&lt;li&gt;A screenshot of the Tunnelbroker website with your tunnel details&lt;/li&gt;
+&lt;li&gt;Your Netplan config&lt;/li&gt;
+&lt;li&gt;The output of ip -6 route&lt;/li&gt;
+&lt;li&gt;Don&amp;rsquo;t say “doesn&amp;rsquo;t work”. Describe your problem in details&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And please don&amp;rsquo;t censor your IPs. It makes it harder for me to help, I wont attack you.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Thank you for reading, have a great day!&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Discord: &lt;a class=&#34;link&#34; href=&#34;https://discord.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;discord.darrennathanael.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Socials: &lt;a class=&#34;link&#34; href=&#34;https://link.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;link.darrennathanael.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>The challenge of running lavalink</title>
+        <link>https://darrennathanael.com/post/challenge-of-running-public-lavalink/</link>
+        <pubDate>Sat, 12 Feb 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://darrennathanael.com/post/challenge-of-running-public-lavalink/</guid>
+        <description>&lt;img src="https://darrennathanael.com/post/challenge-of-running-public-lavalink/lava.webp" alt="Featured image of post The challenge of running lavalink" /&gt;&lt;h1 id=&#34;hello-&#34;&gt;Hello 👋&lt;/h1&gt;
+&lt;p&gt;Hi, I&amp;rsquo;m Darren! I am a sysadmin. Meaning I have a lot of servers that I rent for testing and development. I also have a discord music bot &lt;a class=&#34;link&#34; href=&#34;https://buses.rocks&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Model Buses&lt;/a&gt; that uses lavalink.&lt;/p&gt;
+&lt;p&gt;Having one lavalink server isn&amp;rsquo;t enough&amp;hellip;. jk it&amp;rsquo;s prob enough, but I like to have a few more for redundancy.&lt;/p&gt;
+&lt;p&gt;As of writing this, my bot model buses are on 97 guilds, which isn&amp;rsquo;t that much. So having multiple lavalink servers is kind of overkill. But hey! That&amp;rsquo;s me! I like overkill stuff. And overcomplicating things.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Host : losingtime.dpaste.org
+Port : &lt;span style=&#34;color:#ae81ff&#34;&gt;2124&lt;/span&gt;
+Password : &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;SleepingOnTrains&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;why&#34;&gt;Why&lt;/h2&gt;
+&lt;p&gt;Well, the reason I created this is that prominent lavalink hosting such as &lt;a class=&#34;link&#34; href=&#34;https://support.something.host/en/article/lavalink-hosting-okm26z/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;lava.link&lt;/a&gt; which is owned by something.host is great, But it&amp;rsquo;s dropping WS connection after a while due to it using &lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/39668410/whats-disconnecting-my-websocket-connection-cloudflare-apaches-mod-proxy&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Cloudflare&lt;/a&gt;. And it also disallowed playback from HTTP, Bandcamp and SoundCloud AFAIK, which is sad because I use those services. So I created this.
+Lavalink hosting that doesn&amp;rsquo;t use Cloudflare and doesn&amp;rsquo;t drop WS connections every few hours has all the features such as filters and all sources enabled.&lt;/p&gt;
+&lt;p&gt;This cost a lot of money to run, so if you are using it and would like to support me, you can donate via &lt;a class=&#34;link&#34; href=&#34;https://ko-fi.com/darrenofficial&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://ko-fi.com/darrenofficial&lt;/a&gt; or by joining my &lt;a class=&#34;link&#34; href=&#34;https://discord.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Discord&lt;/a&gt; server.&lt;/p&gt;
+&lt;h2 id=&#34;how-i-designedcreated-my-lavalink&#34;&gt;How I designed/created my lavalink&lt;/h2&gt;
+&lt;h3 id=&#34;measuring-the-cost-of-running-a-lavalink-server&#34;&gt;Measuring the cost of running a lavalink server&lt;/h3&gt;
+&lt;p&gt;Currently, I pay around $380/year with all the nodes combined, around 30 dollars per month.&lt;/p&gt;
+&lt;p&gt;Currently, I have three nodes running; those are equipped with 16 GB ram and a six-core processor. And I have one HAProxy instance running on my webserver.&lt;/p&gt;
+&lt;h3 id=&#34;how-do-i-load-balance-it&#34;&gt;How do I load balance it?&lt;/h3&gt;
+&lt;p&gt;HAProxy. Those HAProxy uses lessconn to load-balance the traffic. I have an HAProxy instance running on my OVH instance.&lt;/p&gt;
+&lt;h3 id=&#34;youtube-rate-limiting&#34;&gt;YouTube Rate limiting&lt;/h3&gt;
+&lt;p&gt;YouTube has a rate limit. I have 2 X /48 IPv6 on each node to encounter it, which is around two million IPs per node.&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 72; 
+			flex-basis: 173px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/challenge-of-running-public-lavalink/ipv6.png&#34; data-size=&#34;711x982&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/challenge-of-running-public-lavalink/ipv6.png&#34;
+			width=&#34;711&#34;
+			height=&#34;982&#34;
+			srcset=&#34;https://darrennathanael.com/post/challenge-of-running-public-lavalink/ipv6_hube2922bab2e7a7f9dde9677d9d00dba9_545950_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/challenge-of-running-public-lavalink/ipv6_hube2922bab2e7a7f9dde9677d9d00dba9_545950_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;IPv6 Routes Table&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;IPv6 Routes Table&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;the-challenge-of-running-lavalink&#34;&gt;The challenge of running lavalink&lt;/h2&gt;
+&lt;h3 id=&#34;discord-voice-channelsgateway-are-fragile&#34;&gt;Discord voice channels/gateway are fragile&lt;/h3&gt;
+&lt;p&gt;Discord has global networks all around the world to serve as voice servers. All audio is delivered over a UDP socket to the voice server. Discord was not designed for playing music, so it&amp;rsquo;s prone to drop audio frames. Due to the nature of UDP, a packet can be lost/dropped or for a packet to be duplicated. These packets are not resent if it&amp;rsquo;s dropped. This problem also appears on the receiver&amp;rsquo;s side, as they also use a UDP connection to the voice server.&lt;/p&gt;
+&lt;p&gt;As of me writing this, my lavalink is connected to 859 voice channels, and there are over 107 actively playing music.
+Each of the nodes handles around 300 bots/connections.&lt;/p&gt;
+&lt;p&gt;Sometimes my lavalink has small dropped frames; these dropped frames are called &amp;ldquo;stuttering&amp;rdquo;, or sometimes, it just outright disconnects the bot, making it unusable.
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 313; 
+			flex-basis: 751px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/challenge-of-running-public-lavalink/b92026b9.png&#34; data-size=&#34;993x317&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/challenge-of-running-public-lavalink/b92026b9.png&#34;
+			width=&#34;993&#34;
+			height=&#34;317&#34;
+			srcset=&#34;https://darrennathanael.com/post/challenge-of-running-public-lavalink/b92026b9_huc0bcceff608caefb12cd5f47675cb123_57571_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/challenge-of-running-public-lavalink/b92026b9_huc0bcceff608caefb12cd5f47675cb123_57571_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 303; 
+			flex-basis: 729px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/challenge-of-running-public-lavalink/26810750.png&#34; data-size=&#34;1045x344&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/challenge-of-running-public-lavalink/26810750.png&#34;
+			width=&#34;1045&#34;
+			height=&#34;344&#34;
+			srcset=&#34;https://darrennathanael.com/post/challenge-of-running-public-lavalink/26810750_hufe9f0d9318c8776ab32e591024835041_52383_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/challenge-of-running-public-lavalink/26810750_hufe9f0d9318c8776ab32e591024835041_52383_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			&gt;
+	&lt;/a&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Another cause for stuttering is when the voice server itself is misbehaving, where users are forced to manually change their voice region (and thus voice server). Most users &amp;amp; devs don&amp;rsquo;t realise this and blame the lavalink server/music bot for not working correctly.&lt;/p&gt;
+&lt;h3 id=&#34;updating-and-maintaining&#34;&gt;Updating and maintaining&lt;/h3&gt;
+&lt;p&gt;Lavalink is a wrapper for &lt;a class=&#34;link&#34; href=&#34;https://github.com/sedmelluq/lavaplayer&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;lavaplayer&lt;/a&gt;, a java library that handles audio playback. This means that occasionally I have to restart the server for updates. I solved this issue by using &amp;ldquo;soft maintenance&amp;rdquo;, a feature on HAProxy that allows me to softly shut down the server, meaning no disconnect happens on the client-side.&lt;/p&gt;
+&lt;h1 id=&#34;support-me&#34;&gt;Support me&lt;/h1&gt;
+&lt;p&gt;Running this is expensive, so I&amp;rsquo;m open to any donations.&lt;/p&gt;
+&lt;p&gt;Discord: DarrenOfficial#3451&lt;/p&gt;
+&lt;p&gt;Discord Server: &lt;a class=&#34;link&#34; href=&#34;https://discord.darrennathanael.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://discord.darrennathanael.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Ko-fi: &lt;a class=&#34;link&#34; href=&#34;https://ko-fi.com/darrenofficial&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://ko-fi.com/darrenofficial&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>How I handle jays.host ddos attack</title>
+        <link>https://darrennathanael.com/post/jayshost/</link>
+        <pubDate>Sun, 06 Feb 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://darrennathanael.com/post/jayshost/</guid>
+        <description>&lt;img src="https://darrennathanael.com/post/jayshost/520.png" alt="Featured image of post How I handle jays.host ddos attack" /&gt;&lt;h2 id=&#34;1-how-it-start&#34;&gt;1. How it start&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;this is not the full start, I joined &amp;amp; help at jan 19, 2022. &lt;em&gt;(Fun fact thats the same date as birthday lol)&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;So this is how it went.
+on January jays webserver went down for almost a week. the reason? e-z.host.&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 189; 
+			flex-basis: 454px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/jayshost/9c919ece.png&#34; data-size=&#34;604x319&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/jayshost/9c919ece.png&#34;
+			width=&#34;604&#34;
+			height=&#34;319&#34;
+			srcset=&#34;https://darrennathanael.com/post/jayshost/9c919ece_hub049421170f08ac4c96c4f13a5990fa4_28144_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/jayshost/9c919ece_hub049421170f08ac4c96c4f13a5990fa4_28144_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;SKRRRTT#9999 the owner of ez.host&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;SKRRRTT#9999 the owner of ez.host&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;yada yada yada, Jay&amp;rsquo;s vps dying moment.&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 129; 
+			flex-basis: 309px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/jayshost/die.gif&#34; data-size=&#34;498x386&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/jayshost/die.gif&#34;
+			width=&#34;498&#34;
+			height=&#34;386&#34;
+			srcset=&#34;https://darrennathanael.com/post/jayshost/die_hu31f1c070948827f2e7f996d2062bc72d_3782230_480x0_resize_box.gif 480w, https://darrennathanael.com/post/jayshost/die_hu31f1c070948827f2e7f996d2062bc72d_3782230_1024x0_resize_box.gif 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;vps die moment&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;vps die moment&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;2-investigate-problem&#34;&gt;2. Investigate Problem&lt;/h2&gt;
+&lt;p&gt;So first thing I do was check Cloudflare logs, see what traffic is going trough and see if Cloudflare was blocking it.
+Turns out 99% of the traffic is going pass Cloudflare and straight into the Server, no shit it was dying.&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 202; 
+			flex-basis: 484px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/jayshost/8d7f968f.png&#34; data-size=&#34;800x396&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/jayshost/8d7f968f.png&#34;
+			width=&#34;800&#34;
+			height=&#34;396&#34;
+			srcset=&#34;https://darrennathanael.com/post/jayshost/8d7f968f_hu805281069e9c7089b14688c8ab8f8d3b_21190_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/jayshost/8d7f968f_hu805281069e9c7089b14688c8ab8f8d3b_21190_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Traffic Cloudflare&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Traffic Cloudflare&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&#34;3-patch-the-issue--tesing&#34;&gt;3. Patch the issue &amp;amp; tesing&lt;/h2&gt;
+&lt;p&gt;The first thing I did was disable ICMP Ping on the server, this is to prevent the server from getting ping of death. and it works! for the server&amp;hellip;
+traffic still going trough Cloudflare, and the server is still accepting it.&lt;/p&gt;
+&lt;p&gt;Next What I did was enable firewall on the server, I dont know why tf is it disabled in the first place.
+I enabled it and configured it to only allow incoming traffic from Cloudflare, My IP, Troplo IP(the other admin).&lt;/p&gt;
+&lt;p&gt;After that I check the traffic on Cloudflare again, and sure it was, it&amp;rsquo;s still going trough the server.
+So I created a firewall rule @ Cloudflare to ban IP address that is requesting alot of stuff in a short time. that works. but it backfired.
+Regular user are getting banned as well.&lt;/p&gt;
+&lt;p&gt;So I reverted that change, and quickly unbanned all IP that the firewall rules banned.
+I got another stupid idea again, to add NGINX global ratelimit. well that kinda works but still&amp;hellip; normal users get ratelimited just by visiting the site.&lt;/p&gt;
+&lt;p&gt;After that I contacted troplo to setup heavy ratelimit on the express server instead. it works but the traffic still going trough Cloudflare, and made the express server died. thus the ratelimiting is useless af.&lt;/p&gt;
+&lt;p&gt;So I check Cloudflare once more, and see what endpoint is being attacked.
+Turns out it was the &lt;code&gt;/api/user&lt;/code&gt; end point and &lt;code&gt;/api/domain&lt;/code&gt; endpoint. it was being spammed with request.&lt;/p&gt;
+&lt;p&gt;So I quickly created a WAF rule to block sus traffic going trough every endpoint, and it worked.&lt;/p&gt;
+&lt;p&gt;After that I started monitoring the traffic again, the Server is not dying anymore and Cloudflare finnaly stopped sending the attacker traffic to the server.&lt;/p&gt;
+&lt;h2 id=&#34;4-it-works&#34;&gt;4. It works!&lt;/h2&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 166; 
+			flex-basis: 398px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/jayshost/secretRules.png&#34; data-size=&#34;792x477&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/jayshost/secretRules.png&#34;
+			width=&#34;792&#34;
+			height=&#34;477&#34;
+			srcset=&#34;https://darrennathanael.com/post/jayshost/secretRules_huf22ab2061d7e32061c844872fc5904e8_31771_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/jayshost/secretRules_huf22ab2061d7e32061c844872fc5904e8_31771_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Traffic Block&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Traffic Block&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Discord: &lt;a class=&#34;link&#34; href=&#34;https://discord.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;discord.darrennathanael.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Socials: &lt;a class=&#34;link&#34; href=&#34;https://link.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;link.darrennathanael.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>setting up tunnelbroker (netplan)</title>
+        <link>https://darrennathanael.com/post/tunnelbroker-lavalink-netplan/</link>
+        <pubDate>Sat, 05 Feb 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://darrennathanael.com/post/tunnelbroker-lavalink-netplan/</guid>
+        <description>&lt;img src="https://darrennathanael.com/post/tunnelbroker-lavalink-netplan/netplan.webp" alt="Featured image of post setting up tunnelbroker (netplan)" /&gt;&lt;h1 id=&#34;why&#34;&gt;Why&lt;/h1&gt;
+&lt;p&gt;lavalink is usually used for discord bot to play music to discord.&lt;/p&gt;
+&lt;p&gt;If your bot is on alot of servers and alot of people, you need tunnelbroker to prevent youtube from rate limiting your ip.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;First and formost, we need to install lavalink. if you dont know how to you can check out the &lt;a class=&#34;link&#34; href=&#34;https://darrennathanael.com/post/how-to-lavalink/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;lavalink setup guide&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;getting-tunnelbroker&#34;&gt;Getting TunnelBroker&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Make a tunnelbroker &lt;a class=&#34;link&#34; href=&#34;https://tunnelbroker.net/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Account&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Create a new &lt;a class=&#34;link&#34; href=&#34;https://tunnelbroker.net/new_tunnel.php&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;regular tunnel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Enter your IPv4 address and select a nearby region.
+&lt;blockquote&gt;
+&lt;p&gt;You can use &lt;a class=&#34;link&#34; href=&#34;https://github.com/DarrenOfficial/scripts-util/blob/main/general/he_ping.sh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/DarrenOfficial/scripts-util/blob/main/general/he_ping.sh&lt;/a&gt; to find nearest / lowest ping tunnelbroker server.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;Request a new /48 by clicking the &amp;ldquo;Assign /48&amp;rdquo; button. We can use /64, but is much more likely to be blocked.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;configuring-tunnelbroker&#34;&gt;Configuring TunnelBroker&lt;/h2&gt;
+&lt;p&gt;The first thing to do is enable IPv6 Binding in Linux. This enables Lavalink (and other programs) to bind to local addresses that would otherwise be considered illegal:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Enable now&lt;/span&gt;
+sysctl -w net.ipv6.ip_nonlocal_bind&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# Persist for next boot&lt;/span&gt;
+echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;net.ipv6.ip_nonlocal_bind = 1&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; /etc/sysctl.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Next you&amp;rsquo;ll need to configure netplan. create a file on &lt;code&gt;/etc/netplan/&lt;/code&gt; named anything ending in &lt;code&gt;.yaml&lt;/code&gt; and add the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;network&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;version&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+  &lt;span style=&#34;color:#f92672&#34;&gt;tunnels&lt;/span&gt;:
+    &lt;span style=&#34;color:#f92672&#34;&gt;he-ipv6&lt;/span&gt;:
+      &lt;span style=&#34;color:#f92672&#34;&gt;mode&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;sit&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;remote&lt;/span&gt;:
+      &lt;span style=&#34;color:#f92672&#34;&gt;local&lt;/span&gt;:
+      &lt;span style=&#34;color:#f92672&#34;&gt;addresses&lt;/span&gt;:
+        - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;gateway6&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You will now need to add your IPv6 subnet details, you&amp;rsquo;ll need to go to tunnelbroker and copy the Server IPv4 address, Client IPv4 address, and Routed IPv6 address.&lt;/p&gt;
+&lt;p&gt;Then you can add the following to your &lt;code&gt;/etc/netplan/&lt;/code&gt; file, these should be arrange as shown in the template above.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Your &lt;strong&gt;remote&lt;/strong&gt; will be your &amp;lsquo;Server IPv4 address&amp;rsquo;&lt;/li&gt;
+&lt;li&gt;Your &lt;strong&gt;local&lt;/strong&gt; will be your &amp;lsquo;Client IPv4 address&amp;rsquo;&lt;/li&gt;
+&lt;li&gt;Your &lt;strong&gt;gateway6&lt;/strong&gt; will be your &amp;lsquo;Routed IPv6 address&amp;rsquo;&lt;/li&gt;
+&lt;li&gt;Your &lt;strong&gt;addresses&lt;/strong&gt; will be your &amp;lsquo;Routed IPv6 address&amp;rsquo;
+&lt;strong&gt;Remember, you do not need to include any speech marks or apostrophes, we have simply listed them to clearly display what should only be listed.&lt;/strong&gt;
+Please look at the &lt;strong&gt;sample&lt;/strong&gt; configuration below, this &lt;strong&gt;should look similar but not the same as&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;network&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;version&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;
+  &lt;span style=&#34;color:#f92672&#34;&gt;tunnels&lt;/span&gt;:
+    &lt;span style=&#34;color:#f92672&#34;&gt;he-ipv6&lt;/span&gt;:
+      &lt;span style=&#34;color:#f92672&#34;&gt;mode&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;sit&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;remote&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;216.66.84.42&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;local&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;54.39.86.164&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;addresses&lt;/span&gt;:
+        - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;2001:470:cc7b::2/48&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;gateway6&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;2001:470:cc7b::1&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;after doing all of that you can run &lt;code&gt;netplan apply&lt;/code&gt; to apply the changes.&lt;/p&gt;
+&lt;h2 id=&#34;test-your-configuration&#34;&gt;Test your configuration&lt;/h2&gt;
+&lt;p&gt;Before setting up the lavalink, we need to test it to make sure it actually works.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Test that IPv6 works in the first place&lt;/span&gt;
+ping6 google.com
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Test your tunnel with&lt;/span&gt;
+ping6 -I he-ipv6 google.com
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# If you have the IPv6 block 1234:1234:1234::/48&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# You should be able to use any of the IPs within that block&lt;/span&gt;
+ping6 -I 1234:1234:1234:: google.com
+ping6 -I 1234:1234:1234::1 google.com
+ping6 -I 1234:1234:1234:dead::beef google.com
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Make sure your /48 block appears when running this command&lt;/span&gt;
+ip -6 route
+&lt;span style=&#34;color:#75715e&#34;&gt;## it should look something like this&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#::1 dev lo proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#2001:470:cc7b::/48 dev he-ipv6 proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#fdba:17c8:6c94::/64 dev pterodactyl0 proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#fe80::/64 dev eth0 proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#fe80::/64 dev pterodactyl0 proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#fe80::/64 dev vethff50ad0 proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#fe80::/64 dev veth5832748 proto kernel metric 256 pref medium&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;#default via 2001:470:cc7b::1 dev he-ipv6 proto static metric 1024 pref medium&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;how-to-configure-lavalink-for-loadbalancing&#34;&gt;How to configure lavalink for loadbalancing&lt;/h2&gt;
+&lt;p&gt;Add the ratelimit block to your config:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;lavalink&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;server&lt;/span&gt;:
+    &lt;span style=&#34;color:#75715e&#34;&gt;# ...&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;ratelimit&lt;/span&gt;:
+      &lt;span style=&#34;color:#f92672&#34;&gt;ipBlocks&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1234:1234:1234::/48&amp;#34;&lt;/span&gt;]
+      &lt;span style=&#34;color:#f92672&#34;&gt;strategy&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;LoadBalance&amp;#34;&lt;/span&gt;
+      &lt;span style=&#34;color:#f92672&#34;&gt;searchTriggersFail&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;You can read more about the different strategies in &lt;a class=&#34;link&#34; href=&#34;https://github.com/freyacodes/Lavalink/blob/master/ROUTEPLANNERS.md&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;ROUTEPLANNERS.md&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;“Help, I&amp;rsquo;ve tried the steps above but It doesn&amp;rsquo;t work.”
+If you&amp;rsquo;ve followed this entire guide and It doesn&amp;rsquo;t work, then please contact me on my &lt;a class=&#34;link&#34; href=&#34;https://discord.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;discord server&lt;/a&gt; &lt;a class=&#34;link&#34; href=&#34;https://discord.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;discord.darrennathanael.com&lt;/a&gt; and I&amp;rsquo;ll help you out. and also provide the following information:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Which distro you are on&lt;/li&gt;
+&lt;li&gt;The network config you wrote based on one of the Tunnelbroker examples&lt;/li&gt;
+&lt;li&gt;A screenshot of the Tunnelbroker website with your tunnel details&lt;/li&gt;
+&lt;li&gt;Your Netplan config&lt;/li&gt;
+&lt;li&gt;The output of ip -6 route&lt;/li&gt;
+&lt;li&gt;Don&amp;rsquo;t say “doesn&amp;rsquo;t work”. Describe your problem in details&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And please don&amp;rsquo;t censor your IPs. It makes it harder for me to help, I wont attack you.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Inspired by Freya Arbjerg &lt;a class=&#34;link&#34; href=&#34;https://blog.arbjerg.dev/2020/3/tunnelbroker-with-lavalink&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.arbjerg.dev/2020/3/tunnelbroker-with-lavalink&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Thank you for reading, have a great day!&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Discord: &lt;a class=&#34;link&#34; href=&#34;https://discord.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;discord.darrennathanael.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Socials: &lt;a class=&#34;link&#34; href=&#34;https://link.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;link.darrennathanael.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>How to make your own CDN with 10 GB storage for free</title>
+        <link>https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/</link>
+        <pubDate>Tue, 14 Dec 2021 00:00:00 +0000</pubDate>
+        
+        <guid>https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/</guid>
+        <description>&lt;img src="https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/cf.webp" alt="Featured image of post How to make your own CDN with 10 GB storage for free" /&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Disclaimer: Don’t use it to host video, theres nothing preventing you from doing so &lt;a class=&#34;link&#34; href=&#34;https://www.Cloudflare.com/en-ca/terms/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;other than Cloudflare tos&lt;/a&gt; (2.8) but it’s better if you just use it for image storage.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;hello-there-&#34;&gt;Hello there 👋&lt;/h1&gt;
+&lt;p&gt;Today we will use Cloudflare &amp;amp; GitLab to make the best “free” &amp;amp; fast CDN!&lt;/p&gt;
+&lt;p&gt;How do we do this you may ask, well simple. GitLab provides us with 10 GB repository limit, we can use this to host our original data via GitLab Pages, then we serve it via Cloudflare, and we set a page rule for our CDN, so it always hit the cached version!&lt;/p&gt;
+&lt;h3 id=&#34;what-is-a-cdn&#34;&gt;What is a CDN&lt;/h3&gt;
+&lt;p&gt;According to Cloudflare, a CDN is a
+&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 149; 
+			flex-basis: 359px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/JvxUL7S3m.png&#34; data-size=&#34;700x467&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/JvxUL7S3m.png&#34;
+			width=&#34;700&#34;
+			height=&#34;467&#34;
+			srcset=&#34;https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/JvxUL7S3m_hub9a56e0cfe62bfd87de66d9f094bbf61_49059_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/JvxUL7S3m_hub9a56e0cfe62bfd87de66d9f094bbf61_49059_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;CDN&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;CDN&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A content delivery network (CDN) refers to a geographically distributed group of servers which work together to provide fast delivery of Internet content.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A CDN allows for the quick transfer of assets needed for loading Internet content including HTML pages, javascript files, stylesheets, images, and videos. The popularity of CDN services continues to grow, and today the majority of web traffic is served through CDNs, including traffic from major sites like Facebook, Netflix, and Amazon.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A properly configured CDN may also help protect websites against some common malicious attacks, such as Distributed Denial of Service (DDOS) attacks.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;setup-requirements&#34;&gt;Setup Requirements.&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Domain. (you can use a subdomain that is on Cloudflare.)&lt;/li&gt;
+&lt;li&gt;GitLab account.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;setting-up-gitlab-environment&#34;&gt;Setting up GitLab environment&lt;/h1&gt;
+&lt;p&gt;Create your GitLab account if you don&amp;rsquo;t have one, go make it right now.
+Then create a repository with any name and the file &lt;code&gt;.gitlab-ci.yml&lt;/code&gt; and a folder named &lt;code&gt;public&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Then fill the &lt;code&gt;.gitlab-ci.yml&lt;/code&gt; with&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yml&#34; data-lang=&#34;yml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;image&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;alpine:latest&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;pages&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;stage&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;deploy&lt;/span&gt;
+  &lt;span style=&#34;color:#f92672&#34;&gt;script&lt;/span&gt;:
+    - &lt;span style=&#34;color:#ae81ff&#34;&gt;echo &amp;#39;Nothing to do...&amp;#39;&lt;/span&gt;
+  &lt;span style=&#34;color:#f92672&#34;&gt;artifacts&lt;/span&gt;:
+    &lt;span style=&#34;color:#f92672&#34;&gt;paths&lt;/span&gt;:
+      - &lt;span style=&#34;color:#ae81ff&#34;&gt;public&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;expire_in&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;1h20min&lt;/span&gt;
+  &lt;span style=&#34;color:#f92672&#34;&gt;rules&lt;/span&gt;:
+    - &lt;span style=&#34;color:#f92672&#34;&gt;if&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And your content on the public folder. Either image HTML file, anything.&lt;/p&gt;
+&lt;h2 id=&#34;serve-the-content-via-gitlab-pages&#34;&gt;Serve the content via GitLab Pages&lt;/h2&gt;
+&lt;p&gt;After you&amp;rsquo;ve done the steps above, GitLab should auto generate a website.&lt;/p&gt;
+&lt;h3 id=&#34;configuring-cloudflare&#34;&gt;Configuring Cloudflare&lt;/h3&gt;
+&lt;p&gt;The next steps will be pretty straight forward. On GitLab, go to settings → pages; then click on new domain. Add your domain there, and add it to Cloudflare by following the instructions. Next for optimization and 99% cache hit, set this page rule for your CDN domain&lt;/p&gt;
+&lt;p&gt;&lt;figure 
+	
+		class=&#34;gallery-image&#34; 
+		style=&#34;
+			flex-grow: 161; 
+			flex-basis: 388px&#34;
+	&gt;
+	&lt;a href=&#34;https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/m8GB4rXOO.png&#34; data-size=&#34;804x497&#34;&gt;
+		&lt;img src=&#34;https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/m8GB4rXOO.png&#34;
+			width=&#34;804&#34;
+			height=&#34;497&#34;
+			srcset=&#34;https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/m8GB4rXOO_hu059c7c5a07af83b64386bd0b3943668f_60417_480x0_resize_box_3.png 480w, https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/m8GB4rXOO_hu059c7c5a07af83b64386bd0b3943668f_60417_1024x0_resize_box_3.png 1024w&#34;
+			loading=&#34;lazy&#34;
+			alt=&#34;Nice&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Nice&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;After that you&amp;rsquo;re good to go!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Thank you for reading, have a great day!&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Discord: &lt;a class=&#34;link&#34; href=&#34;https://discord.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;discord.darrennathanael.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Socials: &lt;a class=&#34;link&#34; href=&#34;https://link.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;link.darrennathanael.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>How to make lavalink server</title>
+        <link>https://darrennathanael.com/post/how-to-lavalink/</link>
+        <pubDate>Fri, 03 Dec 2021 00:00:00 +0000</pubDate>
+        
+        <guid>https://darrennathanael.com/post/how-to-lavalink/</guid>
+        <description>&lt;img src="https://darrennathanael.com/post/how-to-lavalink/mountain.webp" alt="Featured image of post How to make lavalink server" /&gt;&lt;h1 id=&#34;what-are-we-doing-today&#34;&gt;What are we doing today&lt;/h1&gt;
+&lt;p&gt;In this tutorial we will be setting up lavalink server! 🎉&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Let&amp;rsquo;s get started.&lt;/p&gt;
+&lt;p&gt;Now, first thing first&lt;/p&gt;
+&lt;h3 id=&#34;setting-up-the-enviroment&#34;&gt;Setting up the enviroment&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;To make a lavalink server, you will need a java 13 or greater, I recommend using Azul Zulu java 16 or 17.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;You can download &amp;amp; setup java by going to here:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.azul.com/downloads/?os=linux&amp;amp;package=jdk&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Linux&lt;/a&gt; (Make sure to get &lt;code&gt;zulu16-jdk&lt;/code&gt; or &lt;code&gt;zulu17-jdk&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.azul.com/core/zulu-openjdk/install/debian&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Ubuntu / Debian; APT Base&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.azul.com/core/zulu-openjdk/install/rpm-based-linux&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Rhel / CentOS / Oracle; RPM Base&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://aur.archlinux.org/packages/zulu-16-bin/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Arch; I use arch btw.&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.azul.com/downloads/?os=macos&amp;amp;package=jdk&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MacOS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.azul.com/downloads/?os=windows&amp;amp;package=jdk&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Windows&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you want to host lavalink on replit. you can just click this button
+&lt;a class=&#34;link&#34; href=&#34;https://repl.it/github/DarrenOfficial/lavalink-replit&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;figure 
+	&gt;
+	&lt;a href=&#34;https://repl.it/badge/github/DarrenOfficial/lavalink-replit&#34; &gt;
+		&lt;img src=&#34;https://repl.it/badge/github/DarrenOfficial/lavalink-replit&#34;
+			
+			
+			
+			loading=&#34;lazy&#34;
+			alt=&#34;Run on Repl.it&#34;&gt;
+	&lt;/a&gt;
+	
+	&lt;figcaption&gt;Run on Repl.it&lt;/figcaption&gt;
+	
+&lt;/figure&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Once install you can verify it by doing &lt;code&gt;java -version&lt;/code&gt;, the output should look something like this&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;openjdk version &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;16.0.2&amp;#34;&lt;/span&gt; 2021-07-20
+OpenJDK Runtime Environment Zulu16.32+15-CA &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;build 16.0.2+7&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+OpenJDK 64-Bit Server VM Zulu16.32+15-CA &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;build 16.0.2+7, mixed mode, sharing&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;depending on your os, you may need to restart to for it to apply.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Congratulations 🥳 you’ve got Java installed!&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;setting-up-lavalinkjar&#34;&gt;Setting up lavalink.jar&lt;/h3&gt;
+&lt;p&gt;To get started, you need to download the &lt;code&gt;lavalink.jar&lt;/code&gt; and &lt;code&gt;application.yml&lt;/code&gt; It’s pretty simple!&lt;/p&gt;
+&lt;p&gt;There are 2 jars provided below, one is the original one from &lt;a class=&#34;link&#34; href=&#34;https://github.com/freyacodes&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;freyacodes&lt;/a&gt; and one custom one made by &lt;a class=&#34;link&#34; href=&#34;https://github.com/melike2d&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;melike2d&lt;/a&gt; which has alot more features than the original one&lt;/p&gt;
+&lt;h4 id=&#34;lavalink-jar-download&#34;&gt;Lavalink Jar download&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/freyacodes/Lavalink/releases/tag/3.4&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Original Jar&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/freyacodes/Lavalink/releases/tag/3.4&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/freyacodes/Lavalink/releases/tag/3.4&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/freyacodes/Lavalink/tree/dev&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Dev Jar&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://ci.fredboat.com/repository/download/Lavalink_Build/.lastSuccessful/Lavalink.jar?guest=1&amp;amp;branch=refs/heads/dev&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://ci.fredboat.com/repository/download/Lavalink_Build/.lastSuccessful/Lavalink.jar?guest=1&amp;branch=refs/heads/dev&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/melike2d/lavalink&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Custom Jar&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cdn.darrennathanael.com/jars/Lavalink.jar&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cdn.darrennathanael.com/jars/Lavalink.jar&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;applicationyml-download&#34;&gt;application.yml download&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/freyacodes/Lavalink/blob/master/LavalinkServer/application.yml.example&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Lavalink Jar application.yml&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cdn.darrennathanael.com/jars/application.yml&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Custom Jar application.yml&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Once you’ve downloaded the jar and application.yml file, you can simply edit the application.yml port and password to your preferences.&lt;/p&gt;
+&lt;p&gt;Now last step is to move both into a single folder, then open a terminal to that folder using &lt;code&gt;cd&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.howtogeek.com/659411/how-to-change-directories-in-command-prompt-on-windows-10/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;How to use cd in windows&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.macworld.com/article/221277/command-line-navigating-files-folders-mac-terminal.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;How to use cd in mac&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;If your on linux go figure out yourself nerd.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Then run it by doing &lt;code&gt;java -jar Lavalink.jar&lt;/code&gt; or if you wanna limit it to only using X amount of ram you can do &lt;code&gt;java -XmxXG -jar Lavalink.jar&lt;/code&gt; I.e. &lt;code&gt;java -Xmx2G -jar Lavalink.jar&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;and you should get an output similar to this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;root@darren-aws-testsrv lavalink&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# java -Xmx2G -jar Lavalink.jar&lt;/span&gt;
+2021-12-03 04:22:25.402  INFO &lt;span style=&#34;color:#ae81ff&#34;&gt;1826146&lt;/span&gt; --- &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;           main&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; lavalink.server.Launcher                 :
+
+       .   _                  _ _       _    __ _ _
+      /&lt;span style=&#34;color:#ae81ff&#34;&gt;\\&lt;/span&gt; | | __ ___   ____ _| &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;_&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;_ __ | | __&lt;span style=&#34;color:#ae81ff&#34;&gt;\ \ \ \
+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;     &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;| |/ _&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\ \ &lt;/span&gt;/ / _&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt; | | | &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;_ \| |/ / \ \ \ \
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;      \\/ | | (_| |\ V / (_| | | | | | |   &amp;lt;   ) ) ) )
+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;       &amp;#39;&lt;/span&gt;  |_|&lt;span style=&#34;color:#ae81ff&#34;&gt;\_&lt;/span&gt;_,_| &lt;span style=&#34;color:#ae81ff&#34;&gt;\_&lt;/span&gt;/ &lt;span style=&#34;color:#ae81ff&#34;&gt;\_&lt;/span&gt;_,_|_|_|_| |_|_|&lt;span style=&#34;color:#ae81ff&#34;&gt;\_\ &lt;/span&gt;/ / / /
+    &lt;span style=&#34;color:#f92672&#34;&gt;=========================================&lt;/span&gt;/_/_/_/
+
+        Version:        3.3.2.3
+        Build:          &lt;span style=&#34;color:#ae81ff&#34;&gt;1239&lt;/span&gt;
+        Build time:     31.08.2021 17:26:20 UTC
+        Branch          main
+        Commit:         2ad6b46
+        Commit time:    31.08.2021 17:17:13 UTC
+        JVM:            17.0.1
+        Lavaplayer      1.3.93-original
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h2 id=&#34;and-thats-it-youve-installed-lavalink-&#34;&gt;And that’s it! You’ve installed lavalink! 🎉🥳&lt;/h2&gt;
+&lt;p&gt;Thank you for reading, have a great day!&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Discord: &lt;a class=&#34;link&#34; href=&#34;https://discord.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;discord.darrennathanael.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Socials: &lt;a class=&#34;link&#34; href=&#34;https://link.darrennathanael.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;link.darrennathanael.com&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

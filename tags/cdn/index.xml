@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cdn on Darren Nathanael</title>
+    <link>https://darrennathanael.com/tags/cdn/</link>
+    <description>Recent content in cdn on Darren Nathanael</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 14 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://darrennathanael.com/tags/cdn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to make your own CDN with 10 GB storage for free</title>
+      <link>https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/</link>
+      <pubDate>Tue, 14 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://darrennathanael.com/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/</guid>
+      <description>Disclaimer: Don’t use it to host video, theres nothing preventing you from doing so other than Cloudflare tos (2.8) but it’s better if you just use it for image storage.
+ Hello there 👋 Today we will use Cloudflare &amp;amp; GitLab to make the best “free” &amp;amp; fast CDN!
+How do we do this you may ask, well simple. GitLab provides us with 10 GB repository limit, we can use this to host our original data via GitLab Pages, then we serve it via Cloudflare, and we set a page rule for our CDN, so it always hit the cached version!</description>
+    </item>
+    
+  </channel>
+</rss>

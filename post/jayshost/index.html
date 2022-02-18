@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='On January 2021 Jays.host started getting ddosed by e-z.host, here&#39;s how I mitigated it.'><title>How I handle jays.host ddos attack</title>
+
+<link rel='canonical' href='https://darrennathanael.com/post/jayshost/'>
+
+<link rel="stylesheet" href="/scss/style.min.331bdb475b8a9d32fdc640dfd799a7c414130b0cae2b762f8ce2e15791369aab.css"><meta property='og:title' content='How I handle jays.host ddos attack'>
+<meta property="og:description" content="On January 2021 Jays.host started getting ddosed by e-z.host, here&#39;s how I mitigated it." />
+<meta property='og:url' content='https://darrennathanael.com/post/jayshost/'>
+<meta property='og:site_name' content='Darren Nathanael'>
+<meta name="theme-color" content="#1a2036">
+<meta name='copyright' content='DarrenOfficial'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='dns' /><meta property='article:tag' content='network' /><meta property='article:tag' content='security' /><meta property='article:published_time' content='2022-02-06T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2022-02-06T00:00:00&#43;00:00'/><meta property='og:image' content='https://darrennathanael.com/post/jayshost/520.png' />
+<meta name="twitter:site" content="@DarrenOfficial">
+    <meta name="twitter:creator" content="@DarrenOfficial"><meta name="twitter:title" content="How I handle jays.host ddos attack">
+<meta name="twitter:description" content="On January 2021 Jays.host started getting ddosed by e-z.host, here&#39;s how I mitigated it."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://darrennathanael.com/post/jayshost/520.png' />
+    <link rel="shortcut icon" href="https://darrennathanael.com/favicon.png" />
+
+    </head>
+    <body class="
+    article-page has-toc
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "dark");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'dark';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    
+        extended
+    
+">
+    
+        <div id="article-toolbar">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>Back</span>
+            </a>
+        </div>
+    
+<main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/post/jayshost/">
+                <img src="/post/jayshost/520_hu3075ef4bf00bdc3fd48a6fe16a41e890_2210307_800x0_resize_box_3.png"
+                        srcset="/post/jayshost/520_hu3075ef4bf00bdc3fd48a6fe16a41e890_2210307_800x0_resize_box_3.png 800w, /post/jayshost/520_hu3075ef4bf00bdc3fd48a6fe16a41e890_2210307_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="400" 
+                        loading="lazy"
+                        alt="Featured image of post How I handle jays.host ddos attack" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+
+    <h2 class="article-title">
+        <a href="/post/jayshost/">How I handle jays.host ddos attack</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        On January 2021 Jays.host started getting ddosed by e-z.host, here&#39;s how I mitigated it.
+    </h3>
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 06, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    2 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="1-how-it-start">1. How it start</h2>
+<blockquote>
+<p>this is not the full start, I joined &amp; help at jan 19, 2022. <em>(Fun fact thats the same date as birthday lol)</em></p>
+</blockquote>
+<p>So this is how it went.
+on January jays webserver went down for almost a week. the reason? e-z.host.</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 189; 
+			flex-basis: 454px"
+	>
+	<a href="/post/jayshost/9c919ece.png" data-size="604x319">
+		<img src="/post/jayshost/9c919ece.png"
+			width="604"
+			height="319"
+			srcset="/post/jayshost/9c919ece_hub049421170f08ac4c96c4f13a5990fa4_28144_480x0_resize_box_3.png 480w, /post/jayshost/9c919ece_hub049421170f08ac4c96c4f13a5990fa4_28144_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="SKRRRTT#9999 the owner of ez.host">
+	</a>
+	
+	<figcaption>SKRRRTT#9999 the owner of ez.host</figcaption>
+	
+</figure></p>
+<p>yada yada yada, Jay&rsquo;s vps dying moment.</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 129; 
+			flex-basis: 309px"
+	>
+	<a href="/post/jayshost/die.gif" data-size="498x386">
+		<img src="/post/jayshost/die.gif"
+			width="498"
+			height="386"
+			srcset="/post/jayshost/die_hu31f1c070948827f2e7f996d2062bc72d_3782230_480x0_resize_box.gif 480w, /post/jayshost/die_hu31f1c070948827f2e7f996d2062bc72d_3782230_1024x0_resize_box.gif 1024w"
+			loading="lazy"
+			alt="vps die moment">
+	</a>
+	
+	<figcaption>vps die moment</figcaption>
+	
+</figure></p>
+<h2 id="2-investigate-problem">2. Investigate Problem</h2>
+<p>So first thing I do was check Cloudflare logs, see what traffic is going trough and see if Cloudflare was blocking it.
+Turns out 99% of the traffic is going pass Cloudflare and straight into the Server, no shit it was dying.</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 202; 
+			flex-basis: 484px"
+	>
+	<a href="/post/jayshost/8d7f968f.png" data-size="800x396">
+		<img src="/post/jayshost/8d7f968f.png"
+			width="800"
+			height="396"
+			srcset="/post/jayshost/8d7f968f_hu805281069e9c7089b14688c8ab8f8d3b_21190_480x0_resize_box_3.png 480w, /post/jayshost/8d7f968f_hu805281069e9c7089b14688c8ab8f8d3b_21190_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="Traffic Cloudflare">
+	</a>
+	
+	<figcaption>Traffic Cloudflare</figcaption>
+	
+</figure></p>
+<h2 id="3-patch-the-issue--tesing">3. Patch the issue &amp; tesing</h2>
+<p>The first thing I did was disable ICMP Ping on the server, this is to prevent the server from getting ping of death. and it works! for the server&hellip;
+traffic still going trough Cloudflare, and the server is still accepting it.</p>
+<p>Next What I did was enable firewall on the server, I dont know why tf is it disabled in the first place.
+I enabled it and configured it to only allow incoming traffic from Cloudflare, My IP, Troplo IP(the other admin).</p>
+<p>After that I check the traffic on Cloudflare again, and sure it was, it&rsquo;s still going trough the server.
+So I created a firewall rule @ Cloudflare to ban IP address that is requesting alot of stuff in a short time. that works. but it backfired.
+Regular user are getting banned as well.</p>
+<p>So I reverted that change, and quickly unbanned all IP that the firewall rules banned.
+I got another stupid idea again, to add NGINX global ratelimit. well that kinda works but still&hellip; normal users get ratelimited just by visiting the site.</p>
+<p>After that I contacted troplo to setup heavy ratelimit on the express server instead. it works but the traffic still going trough Cloudflare, and made the express server died. thus the ratelimiting is useless af.</p>
+<p>So I check Cloudflare once more, and see what endpoint is being attacked.
+Turns out it was the <code>/api/user</code> end point and <code>/api/domain</code> endpoint. it was being spammed with request.</p>
+<p>So I quickly created a WAF rule to block sus traffic going trough every endpoint, and it worked.</p>
+<p>After that I started monitoring the traffic again, the Server is not dying anymore and Cloudflare finnaly stopped sending the attacker traffic to the server.</p>
+<h2 id="4-it-works">4. It works!</h2>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 166; 
+			flex-basis: 398px"
+	>
+	<a href="/post/jayshost/secretRules.png" data-size="792x477">
+		<img src="/post/jayshost/secretRules.png"
+			width="792"
+			height="477"
+			srcset="/post/jayshost/secretRules_huf22ab2061d7e32061c844872fc5904e8_31771_480x0_resize_box_3.png 480w, /post/jayshost/secretRules_huf22ab2061d7e32061c844872fc5904e8_31771_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="Traffic Block">
+	</a>
+	
+	<figcaption>Traffic Block</figcaption>
+	
+</figure></p>
+<ul>
+<li>Discord: <a class="link" href="https://discord.darrennathanael.com"  target="_blank" rel="noopener"
+    >discord.darrennathanael.com</a></li>
+<li>Socials: <a class="link" href="https://link.darrennathanael.com"  target="_blank" rel="noopener"
+    >link.darrennathanael.com</a></li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/dns/">dns</a>
+        
+            <a href="/tags/network/">network</a>
+        
+            <a href="/tags/security/">security</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Apache-2.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">Related contents</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="has-image">
+    <a href="/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/">
+        
+        
+            <div class="article-image">
+                <img src="/post/how-to-make-your-own-cdn-with-10-gb-storage-for-free/cf.734cd3b7ac7d65ac471547c443c34d87_hu9222b8df8cca5e2954a2764b58459535_7708_250x150_fill_q75_h2_box_smart1_2.webp" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post How to make your own CDN with 10 GB storage for free"
+                        
+                        data-hash="md5-c0zTt6x9ZaxHFUfEQ8NNhw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">How to make your own CDN with 10 GB storage for free</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2022 Darren Nathanael
+    </section>
+    
+    <section class="powerby">
+        Wait this is going to be added to the website? <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.7.0">Stack</a></b> designed <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>, Modified by DarrenOfficial.
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+        <aside class="sidebar right-sidebar sticky">
+            <section class="widget archives">
+                <div class="widget-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+                </div>
+                <h2 class="widget-title section-title">Table of contents</h2>
+                
+                <div class="widget--toc">
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-how-it-start">1. How it start</a></li>
+    <li><a href="#2-investigate-problem">2. Investigate Problem</a></li>
+    <li><a href="#3-patch-the-issue--tesing">3. Patch the issue &amp; tesing</a></li>
+    <li><a href="#4-it-works">4. It works!</a></li>
+  </ul>
+</nav>
+                </div>
+            </section>
+        </aside>
+    
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

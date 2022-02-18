@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>haproxy on Darren Nathanael</title>
+    <link>https://darrennathanael.com/tags/haproxy/</link>
+    <description>Recent content in haproxy on Darren Nathanael</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 12 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://darrennathanael.com/tags/haproxy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The challenge of running lavalink</title>
+      <link>https://darrennathanael.com/post/challenge-of-running-public-lavalink/</link>
+      <pubDate>Sat, 12 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://darrennathanael.com/post/challenge-of-running-public-lavalink/</guid>
+      <description>Hello 👋 Hi, I&amp;rsquo;m Darren! I am a sysadmin. Meaning I have a lot of servers that I rent for testing and development. I also have a discord music bot Model Buses that uses lavalink.
+Having one lavalink server isn&amp;rsquo;t enough&amp;hellip;. jk it&amp;rsquo;s prob enough, but I like to have a few more for redundancy.
+As of writing this, my bot model buses are on 97 guilds, which isn&amp;rsquo;t that much.</description>
+    </item>
+    
+  </channel>
+</rss>
