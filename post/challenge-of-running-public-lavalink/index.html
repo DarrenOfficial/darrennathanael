@@ -5,7 +5,7 @@
 
 <link rel='canonical' href='https://darrennathanael.com/post/challenge-of-running-public-lavalink/'>
 
-<link rel="stylesheet" href="/scss/style.min.331bdb475b8a9d32fdc640dfd799a7c414130b0cae2b762f8ce2e15791369aab.css"><meta property='og:title' content='The challenge of running lavalink'>
+<link rel="stylesheet" href="/scss/style.min.16c16ba5b136bad22475d47e87f2ae6e9d4a7e14937691efe24d9f723fd04ca0.css"><meta property='og:title' content='The challenge of running lavalink'>
 <meta property="og:description" content="This blog post is about how I run my public lavalink server and how I managed it. also some of my frustations with it." />
 <meta property='og:url' content='https://darrennathanael.com/post/challenge-of-running-public-lavalink/'>
 <meta property='og:site_name' content='Darren Nathanael'>
@@ -157,17 +157,12 @@ Lavalink hosting that doesn&rsquo;t use Cloudflare and doesn&rsquo;t drop WS con
 <h3 id="youtube-rate-limiting">YouTube Rate limiting</h3>
 <p>YouTube has a rate limit. I have 2 X /48 IPv6 on each node to encounter it, which is around two million IPs per node.</p>
 <p><figure 
-	
-		class="gallery-image" 
-		style="
-			flex-grow: 72; 
-			flex-basis: 173px"
 	>
-	<a href="/post/challenge-of-running-public-lavalink/ipv6.png" data-size="711x982">
-		<img src="/post/challenge-of-running-public-lavalink/ipv6.png"
-			width="711"
-			height="982"
-			srcset="/post/challenge-of-running-public-lavalink/ipv6_hube2922bab2e7a7f9dde9677d9d00dba9_545950_480x0_resize_box_3.png 480w, /post/challenge-of-running-public-lavalink/ipv6_hube2922bab2e7a7f9dde9677d9d00dba9_545950_1024x0_resize_box_3.png 1024w"
+	<a href="https://lh3.googleusercontent.com/uSv9lKxmC4rWqdc5NHOP-0T6Pqj0PBRCw9N1gNIb6J5ZdUMjcIjjg21lgiIMSXH3yRGCse7RBUJLfssRfJt6udjdc9Wowgqn4e-4eGn1ZpF-HUjXthA6c7PzphnwURSzOH5bFO6D=w2400" >
+		<img src="https://lh3.googleusercontent.com/uSv9lKxmC4rWqdc5NHOP-0T6Pqj0PBRCw9N1gNIb6J5ZdUMjcIjjg21lgiIMSXH3yRGCse7RBUJLfssRfJt6udjdc9Wowgqn4e-4eGn1ZpF-HUjXthA6c7PzphnwURSzOH5bFO6D=w2400"
+			
+			
+			
 			loading="lazy"
 			alt="IPv6 Routes Table">
 	</a>
@@ -182,34 +177,24 @@ Lavalink hosting that doesn&rsquo;t use Cloudflare and doesn&rsquo;t drop WS con
 Each of the nodes handles around 300 bots/connections.</p>
 <p>Sometimes my lavalink has small dropped frames; these dropped frames are called &ldquo;stuttering&rdquo;, or sometimes, it just outright disconnects the bot, making it unusable.
 <figure 
-	
-		class="gallery-image" 
-		style="
-			flex-grow: 313; 
-			flex-basis: 751px"
 	>
-	<a href="/post/challenge-of-running-public-lavalink/b92026b9.png" data-size="993x317">
-		<img src="/post/challenge-of-running-public-lavalink/b92026b9.png"
-			width="993"
-			height="317"
-			srcset="/post/challenge-of-running-public-lavalink/b92026b9_huc0bcceff608caefb12cd5f47675cb123_57571_480x0_resize_box_3.png 480w, /post/challenge-of-running-public-lavalink/b92026b9_huc0bcceff608caefb12cd5f47675cb123_57571_1024x0_resize_box_3.png 1024w"
+	<a href="https://lh3.googleusercontent.com/3f6aq2MQ5rI55lz_lCLbQXThIkQdTbunULwjwtzvC6yjqmIef6s0j-JVdubH6cgtNiWTJAOalcRhUlp8frppATlpUPo4gGkz-jYQC0pnBSeMWLAVgO8nrfkAcXlvvKtc2zB71bK1=w2400" >
+		<img src="https://lh3.googleusercontent.com/3f6aq2MQ5rI55lz_lCLbQXThIkQdTbunULwjwtzvC6yjqmIef6s0j-JVdubH6cgtNiWTJAOalcRhUlp8frppATlpUPo4gGkz-jYQC0pnBSeMWLAVgO8nrfkAcXlvvKtc2zB71bK1=w2400"
+			
+			
+			
 			loading="lazy"
 			>
 	</a>
 	
 </figure></p>
 <p><figure 
-	
-		class="gallery-image" 
-		style="
-			flex-grow: 303; 
-			flex-basis: 729px"
 	>
-	<a href="/post/challenge-of-running-public-lavalink/26810750.png" data-size="1045x344">
-		<img src="/post/challenge-of-running-public-lavalink/26810750.png"
-			width="1045"
-			height="344"
-			srcset="/post/challenge-of-running-public-lavalink/26810750_hufe9f0d9318c8776ab32e591024835041_52383_480x0_resize_box_3.png 480w, /post/challenge-of-running-public-lavalink/26810750_hufe9f0d9318c8776ab32e591024835041_52383_1024x0_resize_box_3.png 1024w"
+	<a href="https://lh3.googleusercontent.com/qJQ1xoieRTibj_7l5BOj8ZIA8zP2L-YbvHJWWnRdrfgCh6WiV1ThaNqQ88kRweS2BzhmirBSSnHZM7_Uz6fk4od1offGyC7fWhSKFyLPvwvHT4O68dJ9zZj0qk1UTW-ZyYSIF_KJ=w2400" >
+		<img src="https://lh3.googleusercontent.com/qJQ1xoieRTibj_7l5BOj8ZIA8zP2L-YbvHJWWnRdrfgCh6WiV1ThaNqQ88kRweS2BzhmirBSSnHZM7_Uz6fk4od1offGyC7fWhSKFyLPvwvHT4O68dJ9zZj0qk1UTW-ZyYSIF_KJ=w2400"
+			
+			
+			
 			loading="lazy"
 			>
 	</a>
@@ -341,7 +326,7 @@ Each of the nodes handles around 300 bots/connections.</p>
     
     <section class="powerby">
         Wait this is going to be added to the website? <br />
-        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.7.0">Stack</a></b> designed <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>, Modified by DarrenOfficial.
+        Theme designed <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>.
     </section>
 </footer>
 
